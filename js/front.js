@@ -3,9 +3,9 @@
 
 $(function () {
   //sliderHomepage()
-  navsHomepage()
   sliders()
-  fullScreenContainer()
+  fullScreenHero(true)
+  fullScreenSlides(true)
   // productDetailGallery(4000)
   menuSliding()
   // productDetailSizes()
@@ -14,15 +14,6 @@ $(function () {
   contactForm()
   loadIframes()
 })
-
-function navsHomepage () {
-  $('.navbar-inverse .navbar-collapse').on('show.bs.collapse', function() {
-    $('.navbar-header').css('background-color', 'rgba(51, 51, 51, 1)')
-  })
-  $('.navbar-inverse .navbar-collapse').on('hidden.bs.collapse', function() {
-    $('.navbar-header').css('background-color', 'rgba(51, 51, 51, 0)')
-  })
-}
 
 // Ajax contact
 function contactForm () {
@@ -180,18 +171,44 @@ function pictureZoom () {
   })
 }
 
-/* full screen intro */
-function fullScreenContainer () {
-  var screenHeight = 400
-  var bottomMargin = 150
+/* full screen hero */
+function fullScreenHero (initialize) {
+  var screenHeight = 300
+  var bottomMargin = 50
 
   if ($(window).height() - bottomMargin >= screenHeight) {
     screenHeight = $(window).height() - bottomMargin
   }
 
-  $('#home-hero .item-responsive').css({
-    height: screenHeight + 'px'
-  })
+  if (initialize) {
+    $('#home-hero .item-responsive').animate({
+      height: screenHeight + 'px'
+    }, {queue: false, duration: 500})
+  } else {
+    $('#home-hero .item-responsive').css({
+      height: screenHeight + 'px'
+    })
+  }
+}
+
+/* full screen slides */
+function fullScreenSlides (initialize) {
+  var screenHeight = 200
+  var navbarMargin = 50
+
+  if ($(window).height() - navbarMargin >= screenHeight) {
+    screenHeight = $(window).height() - navbarMargin
+  }
+
+  if (initialize) {
+    $('.home-slide .item-responsive').animate({
+      height: screenHeight + 'px'
+    }, {queue: false, duration: 500})
+  } else {
+    $('.home-slide .item-responsive').css({
+      height: screenHeight + 'px'
+    })
+  }
 }
 
 function utils () {
@@ -229,16 +246,21 @@ function utils () {
   function scrollTo (fullUrl) {
     var parts = fullUrl.split('#')
     var trgt = parts[1]
-    var targetOffset = $('#' + trgt).offset()
-    var targetTop = targetOffset.top - 100
+    if (trgt) {
+      console.log(trgt)
+      var targetOffset = $('#' + trgt).offset()
+      var targetTop = targetOffset.top - 82
 
-    if (targetTop < 0) {
-      targetTop = 0
+      if (targetTop < 0) {
+        targetTop = 0
+      }
+    } else {
+      var targetTop = 0
     }
 
     $('html, body').animate({
       scrollTop: targetTop
-    }, 1000)
+    }, 500)
   }
 }
 
@@ -342,11 +364,10 @@ $(window).resize(function () {
   var newWindowWidth = $(window).width()
 
   if (windowHeight !== newWindowHeight) {
-    setTimeout(function () {
-      //$(this).alignElementsSameHeight()
-      fullScreenContainer()
-      pictureZoom()
-    }, 105)
+    //$(this).alignElementsSameHeight()
+    fullScreenHero(false)
+    fullScreenSlides(false)
+    pictureZoom()
     windowHeight = newWindowHeight
     windowWidth = newWindowWidth
   }
