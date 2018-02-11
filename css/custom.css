@@ -132,12 +132,17 @@ a.anchor:before {
   margin: -50px 0 0;
 }
 
-a.anchor:hover {
+a.anchor {
   text-decoration-line: none;
 }
 
 a.anchor h2 {
   display: inline-block;
+}
+
+a.anchor i.header-icon {
+  vertical-align: 0%;
+  margin-left: -54px;
 }
 
 /* NAVBAR */
@@ -416,5 +421,9 @@ div.admin-team-row {
   font-size: 12px;
   line-height: 28px;
   background: #333;
+}
+
+#footer .social a {
+  text-decoration: none;
 }
 
